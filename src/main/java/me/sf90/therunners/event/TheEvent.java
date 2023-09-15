@@ -26,7 +26,7 @@ public class TheEvent {
     private boolean eventComplete;
 
     public TheEvent(TheRunners _instance, Location spawnLocation, Location lobbyLocation){
-        players = new ArrayList<UUID>();
+        players = new ArrayList<>();
         instance = _instance;
         this.spawnLocation = spawnLocation;
         this.lobbyLocation = lobbyLocation;
