@@ -129,14 +129,13 @@ public class TheEvent {
     }
 
     private void cancelEvent(){
+        instance.getServer().broadcastMessage(TextUtils.fc(instance.getMessagesConfig(), "messages.notEnoughParticipants"));
         eventStarted = true;
         eventComplete = true;
         for(UUID uuid : players){
             Player p = Bukkit.getPlayer(uuid);
-            players.remove(uuid);
             p.teleport(lobbyLocation);
         }
-        instance.getServer().broadcastMessage(TextUtils.fc(instance.getMessagesConfig(), "messages.notEnoughParticipants"));
     }
 
     public boolean playerIsInEvent(Player p){
