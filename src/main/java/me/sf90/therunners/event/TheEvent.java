@@ -50,11 +50,16 @@ public class TheEvent {
             @Override
             public void count(int current) {
                 if(current == 0){
+                    if(players.size() <= 1){
+                        cancelEvent();
+                        return;
+                    }
+
                     String goMessage = TextUtils.fc(instance.getMessagesConfig(), "countdown.actionbarColorCode")
                             + TextUtils.fc(instance.getMessagesConfig(), "countdown.go");
                     for(UUID i : players) {
                         Player curPlayer = Bukkit.getPlayer(i);
-                        curPlayer.playSound(curPlayer.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1f, 1f);
+                        curPlayer.playSound(curPlayer.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST, 1f, 1f);
                         curPlayer.sendTitle(goMessage, "", 10, 30, 10);
                     }
                     eventStarted = true;
@@ -121,6 +126,17 @@ public class TheEvent {
             ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
             Bukkit.dispatchCommand(console, commandToExecute);
         }
+    }
+
+    private void cancelEvent(){
+        eventStarted = true;
+        eventComplete = true;
+        for(UUID uuid : players){
+            Player p = Bukkit.getPlayer(uuid);
+            players.remove(uuid);
+            p.teleport(lobbyLocation);
+        }
+        instance.getServer().broadcastMessage(TextUtils.fc(instance.getMessagesConfig(), "messages.notEnoughParticipants"));
     }
 
     public boolean playerIsInEvent(Player p){

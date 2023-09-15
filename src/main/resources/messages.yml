@@ -10,6 +10,7 @@ messages:
   eventStarted: "&e&lTHE RUNNERS EVENT HAS STARTED!"
   winAnnouncement: "&e&lWE HAVE A WINNER!"
   winnerSubText: "&eWinner: &d&l%s"
+  notEnoughParticipants: "&cNot enough participants joined the runners event."
 
 command:
   reloadDone: "&aSuccessfully reloaded!"

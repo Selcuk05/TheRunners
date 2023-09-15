@@ -16,7 +16,6 @@ public final class TheRunners extends JavaPlugin {
 
     private TheRunners instance;
 
-    private File messagesConfigFile;
     private FileConfiguration messagesConfig;
     
     private TheEvent currentEvent;
@@ -25,7 +24,7 @@ public final class TheRunners extends JavaPlugin {
     public void onEnable() {
         instance = this;
         saveDefaultConfig();
-        createMessagesConfig();
+        setupMessagesConfig();
 
         getServer().getPluginManager().registerEvents(new PlayerMoveListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerLeaveEventListener(this), this);
@@ -35,16 +34,13 @@ public final class TheRunners extends JavaPlugin {
         getCommand("runners").setExecutor(new RunnersCommands(this));
         getCommand("runnersadmin").setExecutor(new RunnersAdminCommands(this));
 
-        getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-            @Override
-            public void run() {
-                if(!allLocationsSet()){
-                    getLogger().warning("One of all locations was not set! Set it with /runnersadmin setspawn|setPointA|setPointB|setLobby");
-                    return;
-                }
-                currentEvent = new TheEvent(instance, getConfig().getLocation("location.spawn"), getConfig().getLocation("location.lobby"));
-                currentEvent.startEvent();
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
+            if(!allLocationsSet()){
+                getLogger().warning("One of all locations was not set! Set it with /runnersadmin setspawn | setPointA | setPointB | setLobby");
+                return;
             }
+            currentEvent = new TheEvent(instance, getConfig().getLocation("location.spawn"), getConfig().getLocation("location.lobby"));
+            currentEvent.startEvent();
         }, getConfig().getInt("general.eventStartDelay") * 20L, getConfig().getInt("general.eventPeriod") * 20L);
     }
 
@@ -56,8 +52,8 @@ public final class TheRunners extends JavaPlugin {
         return messagesConfig;
     }
 
-    private void createMessagesConfig() {
-        messagesConfigFile = new File(getDataFolder(), "messages.yml");
+    private void setupMessagesConfig() {
+        File messagesConfigFile = new File(getDataFolder(), "messages.yml");
         if (!messagesConfigFile.exists()) {
             messagesConfigFile.getParentFile().mkdirs();
             saveResource("messages.yml", false);
@@ -69,7 +65,7 @@ public final class TheRunners extends JavaPlugin {
     public void reloadAllConfigs() {
         if(!getDataFolder().exists()) return;
         reloadConfig();
-        messagesConfig = YamlConfiguration.loadConfiguration(messagesConfigFile);
+        setupMessagesConfig();
     }
 
     // EVENT
