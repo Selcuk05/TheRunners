@@ -45,37 +45,33 @@ public class TheEvent {
     public void startEvent(){
         instance.getServer().broadcastMessage(TextUtils.fc(instance.getMessagesConfig(), "messages.eventStarting"));
 
-        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(instance, new Runnable(){
-            public void run(){
-                new CountdownTimer(instance.getConfig().getInt("general.startCountdown"), instance) {
+        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(instance, () -> new CountdownTimer(instance.getConfig().getInt("general.startCountdown"), instance) {
 
-                    @Override
-                    public void count(int current) {
-                        if(current == 0){
-                            String goMessage = TextUtils.fc(instance.getMessagesConfig(), "countdown.actionbarColorCode")
-                                    + TextUtils.fc(instance.getMessagesConfig(), "countdown.go");
-                            for(UUID i : players) {
-                                Player curPlayer = Bukkit.getPlayer(i);
-                                curPlayer.playSound(curPlayer.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1f, 1f);
-                                curPlayer.sendTitle(goMessage, "", 10, 30, 10);
-                            }
-                            eventStarted = true;
-                            instance.getServer().broadcastMessage(TextUtils.fc(instance.getMessagesConfig(), "messages.eventStarted"));
-                            return;
-                        }
-
-                        for(UUID i : players) {
-                            Player curPlayer = Bukkit.getPlayer(i);
-                            curPlayer.playSound(curPlayer.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1f, 1f);
-                            curPlayer.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                                    TextUtils.fc(instance.getMessagesConfig(), "countdown.actionbarColorCode") + String.format("%d", current)
-                            ));
-                        }
+            @Override
+            public void count(int current) {
+                if(current == 0){
+                    String goMessage = TextUtils.fc(instance.getMessagesConfig(), "countdown.actionbarColorCode")
+                            + TextUtils.fc(instance.getMessagesConfig(), "countdown.go");
+                    for(UUID i : players) {
+                        Player curPlayer = Bukkit.getPlayer(i);
+                        curPlayer.playSound(curPlayer.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1f, 1f);
+                        curPlayer.sendTitle(goMessage, "", 10, 30, 10);
                     }
+                    eventStarted = true;
+                    instance.getServer().broadcastMessage(TextUtils.fc(instance.getMessagesConfig(), "messages.eventStarted"));
+                    return;
+                }
 
-                }.start();
+                for(UUID i : players) {
+                    Player curPlayer = Bukkit.getPlayer(i);
+                    curPlayer.playSound(curPlayer.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1f, 1f);
+                    curPlayer.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                            TextUtils.fc(instance.getMessagesConfig(), "countdown.actionbarColorCode") + String.format("%d", current)
+                    ));
+                }
             }
-        }, instance.getConfig().getInt("general.eventJoinDelay") * 20L);
+
+        }.start(), instance.getConfig().getInt("general.eventJoinDelay") * 20L);
     }
 
     public void joinEvent(Player p){
@@ -84,11 +80,9 @@ public class TheEvent {
 
         if(!players.contains(playerUUID)) {
             p.teleport(spawnLocation);
-            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(instance, new Runnable(){
-                public void run(){
-                    players.add(p.getUniqueId());
-                    p.sendMessage(TextUtils.fc(instance.getMessagesConfig(), "messages.joinedEvent"));
-                }
+            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(instance, () -> {
+                players.add(p.getUniqueId());
+                p.sendMessage(TextUtils.fc(instance.getMessagesConfig(), "messages.joinedEvent"));
             }, 2);
             return;
         }
