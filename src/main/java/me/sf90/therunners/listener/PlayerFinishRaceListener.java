@@ -2,7 +2,6 @@ package me.sf90.therunners.listener;
 
 import me.sf90.therunners.TheRunners;
 import me.sf90.therunners.event.TheEvent;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

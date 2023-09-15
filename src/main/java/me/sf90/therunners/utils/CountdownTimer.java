@@ -8,7 +8,6 @@ public abstract class CountdownTimer {
 
     private int countFrom;
 
-    private BukkitTask task;
     private final TheRunners instance;
 
 
@@ -23,7 +22,7 @@ public abstract class CountdownTimer {
 
 
     public final void start() {
-        task = new BukkitRunnable() {
+        new BukkitRunnable() {
 
             @Override
             public void run() {

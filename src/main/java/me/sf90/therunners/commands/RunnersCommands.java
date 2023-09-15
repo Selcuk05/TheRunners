@@ -1,7 +1,6 @@
 package me.sf90.therunners.commands;
 
 import me.sf90.therunners.TheRunners;
-import me.sf90.therunners.utils.TextUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
