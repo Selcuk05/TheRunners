@@ -2,7 +2,6 @@ package me.sf90.therunners.utils;
 
 import me.sf90.therunners.TheRunners;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
 public abstract class CountdownTimer {
 

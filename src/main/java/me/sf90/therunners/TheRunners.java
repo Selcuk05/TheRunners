@@ -65,6 +65,7 @@ public final class TheRunners extends JavaPlugin {
     public void reloadAllConfigs() {
         if(!getDataFolder().exists()) return;
         reloadConfig();
+        saveConfig();
         setupMessagesConfig();
     }
 

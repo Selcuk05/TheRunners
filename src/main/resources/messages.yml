@@ -11,6 +11,7 @@ messages:
   winAnnouncement: "&e&lWE HAVE A WINNER!"
   winnerSubText: "&eWinner: &d&l%s"
   notEnoughParticipants: "&cNot enough participants joined the runners event."
+  canNotUseCommands: "&cCan not use commands while in event!"
 
 command:
   reloadDone: "&aSuccessfully reloaded!"
