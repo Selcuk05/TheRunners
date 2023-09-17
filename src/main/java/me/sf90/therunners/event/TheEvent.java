@@ -83,7 +83,8 @@ public class TheEvent {
         if(eventStarted) return;
         UUID playerUUID = p.getUniqueId();
 
-        if(!players.contains(playerUUID)) {
+        int playerLimit = instance.getConfig().getInt("general.playerLimit");
+        if(!players.contains(playerUUID) && (playerLimit == 0 || players.size() + 1 <= playerLimit)) {
             p.teleport(spawnLocation);
             Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(instance, () -> {
                 players.add(p.getUniqueId());

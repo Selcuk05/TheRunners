@@ -6,6 +6,7 @@ general:
   eventJoinDelay: 20
   eventPeriod: 150
   startCountdown: 5
+  playerLimit: 0
 
 rewardCommands:
   - "eco give %s 10000000"
