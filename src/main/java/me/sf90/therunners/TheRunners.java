@@ -27,7 +27,8 @@ public final class TheRunners extends JavaPlugin {
     public void onEnable() {
         instance = this;
         saveDefaultConfig();
-        setupMessagesConfig();
+        // setupMessagesConfig();
+        setupCustomConfig("messages.yml", messagesConfig);
 
         getServer().getPluginManager().registerEvents(new PlayerMoveListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerLeaveEventListener(this), this);
@@ -51,11 +52,8 @@ public final class TheRunners extends JavaPlugin {
     public void onDisable() {}
 
     // CONFIG
-    public FileConfiguration getMessagesConfig(){
-        return messagesConfig;
-    }
 
-    private void setupMessagesConfig() {
+    /* private void setupMessagesConfig() {
         File messagesConfigFile = new File(getDataFolder(), "messages.yml");
         if (!messagesConfigFile.exists()) {
             messagesConfigFile.getParentFile().mkdirs();
@@ -76,13 +74,41 @@ public final class TheRunners extends JavaPlugin {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    } */
+
+    private void setupCustomConfig(String resourcePath, FileConfiguration configPointer) {
+        File configFile = new File(getDataFolder(), resourcePath);
+        if (!configFile.exists()) {
+            configFile.getParentFile().mkdirs();
+            saveResource(resourcePath, false);
+        }
+
+        configPointer = YamlConfiguration.loadConfiguration(configFile);
+        InputStream messagesStream = getResource(resourcePath);
+        InputStreamReader reader = new InputStreamReader(messagesStream);
+        FileConfiguration defaults = YamlConfiguration.loadConfiguration(reader);
+        for (String path : defaults.getKeys(true)) {
+            if (!configPointer.contains(path)) {
+                configPointer.set(path, defaults.get(path));
+            }
+        }
+        try {
+            configPointer.save(configFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void reloadAllConfigs() {
         if(!getDataFolder().exists()) return;
         reloadConfig();
         saveConfig();
-        setupMessagesConfig();
+        // setupMessagesConfig();
+        setupCustomConfig("messages.yml", messagesConfig);
+    }
+
+    public FileConfiguration getMessagesConfig(){
+        return messagesConfig;
     }
 
     // EVENT
