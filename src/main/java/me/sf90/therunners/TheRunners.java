@@ -27,7 +27,7 @@ public final class TheRunners extends JavaPlugin {
     public void onEnable() {
         instance = this;
         saveDefaultConfig();
-        setupCustomConfig("messages.yml", messagesConfig);
+        messagesConfig = setupCustomConfig("messages.yml");
 
         getServer().getPluginManager().registerEvents(new PlayerMoveListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerLeaveEventListener(this), this);
@@ -51,14 +51,14 @@ public final class TheRunners extends JavaPlugin {
     public void onDisable() {}
 
     // CONFIG
-    private void setupCustomConfig(String resourcePath, FileConfiguration configPointer) {
+    private FileConfiguration setupCustomConfig(String resourcePath) {
         File configFile = new File(getDataFolder(), resourcePath);
         if (!configFile.exists()) {
             configFile.getParentFile().mkdirs();
             saveResource(resourcePath, false);
         }
 
-        configPointer = YamlConfiguration.loadConfiguration(configFile);
+        FileConfiguration configPointer = YamlConfiguration.loadConfiguration(configFile);
         InputStream messagesStream = getResource(resourcePath);
         InputStreamReader reader = new InputStreamReader(messagesStream);
         FileConfiguration defaults = YamlConfiguration.loadConfiguration(reader);
@@ -72,13 +72,15 @@ public final class TheRunners extends JavaPlugin {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        return configPointer;
     }
 
     public void reloadAllConfigs() {
         if(!getDataFolder().exists()) return;
         reloadConfig();
         saveConfig();
-        setupCustomConfig("messages.yml", messagesConfig);
+        messagesConfig = setupCustomConfig("messages.yml");
     }
 
     public FileConfiguration getMessagesConfig(){
