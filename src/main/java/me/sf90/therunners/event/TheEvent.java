@@ -111,11 +111,14 @@ public class TheEvent {
 
     public void endEvent(Player winner){
         eventComplete = true;
+
         Bukkit.broadcastMessage("\n" + TextUtils.fc(instance.getMessagesConfig(), "messages.winAnnouncement") + "\n" +
                 String.format(TextUtils.fc(instance.getMessagesConfig(), "messages.winnerSubText"), winner.getName()) + "\n");
+
         for(Player p : instance.getServer().getOnlinePlayers()){
             p.sendTitle(TextUtils.fc(instance.getMessagesConfig(), "messages.winAnnouncement"),
                     String.format(TextUtils.fc(instance.getMessagesConfig(), "messages.winnerSubText"), winner.getName()), 10, 30, 10);
+
             if(players.contains(p.getUniqueId())){
                 p.teleport(lobbyLocation);
                 players.remove(p.getUniqueId());
@@ -133,6 +136,7 @@ public class TheEvent {
         instance.getServer().broadcastMessage(TextUtils.fc(instance.getMessagesConfig(), "messages.notEnoughParticipants"));
         eventStarted = true;
         eventComplete = true;
+
         for(UUID uuid : players){
             Player p = Bukkit.getPlayer(uuid);
             p.teleport(lobbyLocation);

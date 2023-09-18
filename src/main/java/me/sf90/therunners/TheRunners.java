@@ -11,6 +11,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public final class TheRunners extends JavaPlugin {
 
@@ -60,6 +63,19 @@ public final class TheRunners extends JavaPlugin {
         }
 
         messagesConfig = YamlConfiguration.loadConfiguration(messagesConfigFile);
+        InputStream messagesStream = getResource("messages.yml");
+        InputStreamReader reader = new InputStreamReader(messagesStream);
+        FileConfiguration defaults = YamlConfiguration.loadConfiguration(reader);
+        for (String path : defaults.getKeys(true)) {
+            if (!this.messagesConfig.contains(path)) {
+                this.messagesConfig.set(path, defaults.get(path));
+            }
+        }
+        try {
+            this.messagesConfig.save(messagesConfigFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void reloadAllConfigs() {
