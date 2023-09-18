@@ -6,6 +6,7 @@ import me.sf90.therunners.event.TheEvent;
 import me.sf90.therunners.listener.PlayerFinishRaceListener;
 import me.sf90.therunners.listener.PlayerLeaveEventListener;
 import me.sf90.therunners.listener.PlayerMoveListener;
+import me.sf90.therunners.utils.UpdateChecker;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -33,7 +34,6 @@ public final class TheRunners extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerLeaveEventListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerFinishRaceListener(this), this);
 
-
         getCommand("runners").setExecutor(new RunnersCommands(this));
         getCommand("runnersadmin").setExecutor(new RunnersAdminCommands(this));
 
@@ -45,6 +45,14 @@ public final class TheRunners extends JavaPlugin {
             currentEvent = new TheEvent(instance, getConfig().getLocation("location.spawn"), getConfig().getLocation("location.lobby"));
             currentEvent.startEvent();
         }, getConfig().getInt("general.eventStartDelay") * 20L, getConfig().getInt("general.eventPeriod") * 20L);
+
+        new UpdateChecker(this, 112655).getVersion(version -> {
+            if (this.getDescription().getVersion().equals(version)) {
+                getLogger().info("You are running the most recent version!");
+            } else {
+                getLogger().info(String.format("There is an update for TheRunners: %s", version));
+            }
+        });
     }
 
     @Override
