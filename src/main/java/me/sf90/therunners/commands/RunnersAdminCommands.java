@@ -20,6 +20,7 @@ public class RunnersAdminCommands implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         if(!(commandSender instanceof Player)) return true;
         Player p = (Player) commandSender;
+        Location loc = p.getLocation();
         if(!p.hasPermission("therunners.admin")){
             p.sendMessage(TextUtils.fc(instance.getMessagesConfig(), "command.notAdmin"));
             return true;
@@ -32,29 +33,25 @@ public class RunnersAdminCommands implements CommandExecutor {
         }
 
         if(args[0].equalsIgnoreCase("setspawn")){
-            Location newSpawn = p.getLocation();
-            locSetter(newSpawn, "location.spawn");
+            locSetter(loc, "location.spawn");
             p.sendMessage(String.format(TextUtils.fc(instance.getMessagesConfig(), "command.locationSet"), "spawn"));
             return true;
         }
 
         if(args[0].equalsIgnoreCase("setPointA")){
-            Location newPointA = p.getLocation();
-            locSetter(newPointA, "location.pointA");
+            locSetter(loc, "location.pointA");
             p.sendMessage(String.format(TextUtils.fc(instance.getMessagesConfig(), "command.locationSet"), "point A"));
             return true;
         }
 
         if(args[0].equalsIgnoreCase("setPointB")){
-            Location newPointB = p.getLocation();
-            locSetter(newPointB, "location.pointB");
+            locSetter(loc, "location.pointB");
             p.sendMessage(String.format(TextUtils.fc(instance.getMessagesConfig(), "command.locationSet"), "point B"));
             return true;
         }
 
         if(args[0].equalsIgnoreCase("setLobby")){
-            Location newLobby = p.getLocation();
-            locSetter(newLobby, "location.lobby");
+            locSetter(loc, "location.lobby");
             p.sendMessage(String.format(TextUtils.fc(instance.getMessagesConfig(), "command.locationSet"), "lobby"));
             return true;
         }

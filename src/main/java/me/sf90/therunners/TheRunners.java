@@ -2,6 +2,8 @@ package me.sf90.therunners;
 
 import me.sf90.therunners.commands.RunnersAdminCommands;
 import me.sf90.therunners.commands.RunnersCommands;
+import me.sf90.therunners.commands.completers.RunnersAdminCompleter;
+import me.sf90.therunners.commands.completers.RunnersCompleter;
 import me.sf90.therunners.event.TheEvent;
 import me.sf90.therunners.listener.PlayerFinishRaceListener;
 import me.sf90.therunners.listener.PlayerLeaveEventListener;
@@ -27,6 +29,7 @@ public final class TheRunners extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+
         saveDefaultConfig();
         messagesConfig = setupCustomConfig("messages.yml");
 
@@ -35,7 +38,10 @@ public final class TheRunners extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerFinishRaceListener(this), this);
 
         getCommand("runners").setExecutor(new RunnersCommands(this));
+        getCommand("runners").setTabCompleter(new RunnersCompleter());
+
         getCommand("runnersadmin").setExecutor(new RunnersAdminCommands(this));
+        getCommand("runnersadmin").setTabCompleter(new RunnersAdminCompleter());
 
         getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
             if(!allLocationsSet()){
