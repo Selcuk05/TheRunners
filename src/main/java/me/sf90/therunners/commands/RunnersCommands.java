@@ -2,6 +2,7 @@ package me.sf90.therunners.commands;
 
 import me.sf90.therunners.TheRunners;
 import me.sf90.therunners.event.TheEvent;
+import me.sf90.therunners.utils.TextUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -22,6 +23,11 @@ public class RunnersCommands implements CommandExecutor {
 
         TheEvent currentEvent = instance.getCurrentEvent();
         if(currentEvent == null) return true;
+
+        if(p.hasPermission("therunners.blacklist")) {
+            p.sendMessage(TextUtils.fc(instance.getMessagesConfig(), "command.blacklisted"));
+            return true;
+        }
 
         if(args[0].equalsIgnoreCase("join") || args[0].equalsIgnoreCase("katıl")){
             currentEvent.joinEvent(p);

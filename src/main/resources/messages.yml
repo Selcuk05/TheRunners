@@ -17,6 +17,7 @@ command:
   reloadDone: "&aSuccessfully reloaded!"
   notAdmin: "&cYou are not admin!"
   locationSet: "&aLocation %s has been set!"
+  blacklisted: "&cYou are blacklisted from joining/leaving events."
 
 countdown:
   actionbarColorCode: "&a&l"
