@@ -1,6 +1,6 @@
-#
+# --------------------------------------------
 # DO NOT REMOVE PLACEHOLDERS LIKE %d, %s, etc.
-#
+# --------------------------------------------
 messages:
   eventStarting: "\n&eTHE RUNNERS EVENT IS STARTING!\nType &a&l/runners join &7to join!\n"
   joinedEvent: "&aYou have successfully joined the runners event!"

@@ -68,8 +68,8 @@ public final class TheRunners extends JavaPlugin {
     private FileConfiguration setupCustomConfig(String resourcePath) {
         File configFile = new File(getDataFolder(), resourcePath);
         if (!configFile.exists()) {
-            configFile.getParentFile().mkdirs();
-            saveResource(resourcePath, false);
+            boolean success = configFile.getParentFile().mkdirs();
+            if(success) saveResource(resourcePath, false);
         }
 
         FileConfiguration configPointer = YamlConfiguration.loadConfiguration(configFile);
