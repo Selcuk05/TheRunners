@@ -17,3 +17,7 @@ Running race plugin for Spigot
 `/runnersadmin setSpawn`  | Sets the spawn for the running track</br>
 `/runnersadmin setPointA` | Sets the first point of the finish line region</br>
 `/runnersadmin setPointB` | Sets the second point of the finish line region</br>
+
+## Permissions:
+`therunners.admin` | Admin commands privilege</br>
+`therunners.blacklist` | Should be given to blacklisted players
